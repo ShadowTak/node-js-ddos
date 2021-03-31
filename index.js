@@ -8,8 +8,8 @@ const fs = require('fs'),
     random_useragent = require('random-useragent');
 if (process.argv.length !== 8) {
     console.log(`
-Usage: node ${path.basename(__filename)} <url> <time> <req_per_ip> <proxies> <thread> <on/off>
-Usage: node ${path.basename(__filename)} <http://example.com> <60> <100> <http.txt> <5> <on>
+Usage: node ${path.basename(__filename)} [url] [time] [req_per_ip] [proxies] [thread] [on/off]
+Usage: node ${path.basename(__filename)} http://example.com 60 100 proxy.txt 5 on
 					By: Wachira Choomsiri`);
     process.exit(0);
 }
