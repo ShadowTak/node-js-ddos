@@ -25,7 +25,7 @@ let proxies = fs.readFileSync(process.argv[5], 'utf-8').replace(/\r/gi, '').spli
 
 function send_req_proxy() {
     let proxy = proxies[Math.floor(Math.random() * proxies.length)];
-    var usepr = proxy.split(':');
+    var proxies = proxy.split(':');
     let getHeaders = new Promise(function (resolve, reject) {
         CloudScraper({
             uri: target,
@@ -51,7 +51,7 @@ function send_req_proxy() {
     });
     getHeaders.then(function (result) {
         var client = new net.Socket();
-        client.connect(usepr[1], usepr[0]);
+        client.connect(proxies[1], proxies[0]);
         client.setTimeout(10000);
         var headers = `GET ${target} HTTP/1.1\r\n` + result + '\r\n\r\n'
         //console.log(headers)
